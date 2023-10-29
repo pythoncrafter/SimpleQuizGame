@@ -7,15 +7,16 @@ from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.uix.popup import Popup
 from kivy.core.window import Window
-from kivy.utils import platform
-import json
+import sqlite3
+from sqlite3 import Error
 import os
 
 class Question:
-    def __init__(self, question, options, correct_option):
+    def __init__(self, question, options, correct_option, category):
         self.question = question
-        self.options = options
+        self.options = options.split(',')
         self.correct_option = correct_option
+        self.category = category
 
     def check_answer(self, user_choice):
         return user_choice == self.correct_option
@@ -39,15 +40,34 @@ class QuizApp(App):
         return layout
 
     def load_questions(self):
-        file_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'questions.json')
-        if not os.path.exists(file_path):
-            with open(file_path, 'w') as file:
-                json.dump(DEFAULT_QUESTIONS, file)
+        file_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'questions.db')
+        conn = None
+        try:
+            conn = sqlite3.connect(file_path)
+            cursor = conn.cursor()
+            cursor.execute("SELECT * FROM questions")
+            rows = cursor.fetchall()
+            self.questions = [Question(row[1], row[2], row[3], row[4]) for row in rows]
+        except Error as e:
+            print(e)
+        finally:
+            if conn:
+                conn.close()
 
-        with open(file_path, 'r') as file:
-            data = json.load(file)
-            self.questions = [Question(item['question'], item['options'], item['correct_option']) for item in data]
-
+    def add_question(self, question, options, correct_option, category):
+        file_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'questions.db')
+        conn = None
+        try:
+            conn = sqlite3.connect(file_path)
+            cursor = conn.cursor()
+            cursor.execute("INSERT INTO questions (question, options, correct_option, category) VALUES (?,?,?,?)", (question, options, correct_option, category))
+            conn.commit()
+            print("Question added successfully")
+        except Error as e:
+            print(e)
+        finally:
+            if conn:
+                conn.close()
 
     def show_question(self):
         self.options_layout.clear_widgets()
