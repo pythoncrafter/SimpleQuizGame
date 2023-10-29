@@ -25,6 +25,10 @@ class Question:
         return user_choice == self.correct_option
 
 class QuizApp(App):
+    def __init__(self, **kwargs):
+        super(QuizApp, self).__init__(**kwargs)
+        self.questions = []  # Initialize the questions attribute
+        
     def build(self):
         self.load_questions()
         self.score = 0
