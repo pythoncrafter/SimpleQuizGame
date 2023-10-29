@@ -2,6 +2,7 @@ from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 from kivy.uix.button import Button
+from kivy.graphics import Color, RoundedRectangle
 
 class QuizApp(App):
     def build(self):
@@ -32,6 +33,14 @@ class MainScreen(BoxLayout):
 
     def login_with_macos(self, instance):
         print("Login with macOS Account")
+
+    def on_size(self, *args):
+        self.canvas.before.clear()
+        with self.canvas.before:
+            Color(0.2, 0.7, 0.3, 1)
+            RoundedRectangle(pos=self.pos, size=self.size, radius=[20,])
+            Color(0.2, 0.6, 0.9, 1)
+            RoundedRectangle(pos=self.pos, size=self.size, radius=[20,])
 
 if __name__ == '__main__':
     QuizApp().run()
