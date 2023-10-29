@@ -8,6 +8,7 @@ from kivy.uix.button import Button
 from kivy.uix.popup import Popup
 from kivy.uix.textinput import TextInput
 from kivy.core.window import Window
+from kivy.utils import platform
 import sqlite3
 from sqlite3 import Error
 import json
