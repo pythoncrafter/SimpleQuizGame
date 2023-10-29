@@ -3,6 +3,7 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.uix.popup import Popup
+import json
 
 class Question:
     def __init__(self, question, options, correct_option):
@@ -15,11 +16,7 @@ class Question:
 
 class QuizApp(App):
     def build(self):
-        self.questions = [
-            Question("What is the capital of France?", ["Paris", "Berlin", "Rome"], 1),
-            Question("Which planet is known as the Red Planet?", ["Mars", "Venus", "Jupiter"], 1),
-            Question("Which is the largest mammal?", ["Elephant", "Blue Whale", "Giraffe"], 2)
-        ]
+        self.load_questions()
         self.score = 0
         self.current_question = 0
 
@@ -34,6 +31,11 @@ class QuizApp(App):
 
         self.show_question()
         return layout
+
+    def load_questions(self):
+        with open('questions.json', 'r') as file:
+            data = json.load(file)
+            self.questions = [Question(item['question'], item['options'], item['correct_option']) for item in data]
 
     def show_question(self):
         self.options_layout.clear_widgets()
@@ -57,11 +59,17 @@ class QuizApp(App):
             self.show_question()
         else:
             self.show_result_popup()
+            self.save_results()
 
     def show_result_popup(self):
         content = Label(text=f"Your final score: {self.score}/{len(self.questions)}", font_size=20)
         popup = Popup(title='Quiz Result', content=content, size_hint=(None, None), size=(400, 400))
         popup.open()
+
+    def save_results(self):
+        results = {'score': self.score, 'total_questions': len(self.questions)}
+        with open('results.json', 'w') as file:
+            json.dump(results, file)
 
 if __name__ == '__main__':
     QuizApp().run()
