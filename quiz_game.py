@@ -126,7 +126,17 @@ class QuizApp(App):
         button = Button(text='Add', size_hint_y=None, height=40)
         button.bind(on_press=self.add_question_from_popup)
         content.add_widget(button)
-        popup = Popup(title='Add Question', content=content, size_hint=(None, None), size
+        popup = Popup(title='Add Question', content=content, size_hint=(None, None), size=(400, 400))
+        popup.open()
+
+    def add_question_from_popup(self, instance):
+        question = self.question_input.text
+        options = self.options_input.text
+        correct_option = int(self.correct_option_input.text)
+        category = self.category_input.text
+        self.add_question(question, options, correct_option, category)
+        self.load_questions()  # Reload the questions after adding a new one
+        self.show_question()  # Show the newly added question
 
 
 if __name__ == '__main__':
