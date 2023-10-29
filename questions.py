@@ -15,7 +15,7 @@ class MainScreen(BoxLayout):
         self.padding = [50, 50, 50, 50]
         self.spacing = 30
         self.add_widget(Label(text='Welcome to the Quiz App', 
-                              size_hint=(1, 0.4), 
+                              size_hint=(1, 0.25), 
                               font_size='24sp'))
         self.add_widget(CustomButton(text='Login with Google', 
                                      background_color=(0.2, 0.7, 0.3, 1),
