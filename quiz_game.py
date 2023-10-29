@@ -1,8 +1,12 @@
+from kivy.config import Config
+Config.set('graphics', 'resizable', '0')
+
 from kivy.app import App
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.uix.popup import Popup
+from kivy.core.window import Window
 import json
 import os
 
@@ -107,4 +111,10 @@ class QuizApp(App):
             json.dump(results, file)
 
 if __name__ == '__main__':
+    # Set the window size and position for macOS
+    if os.name == 'posix':
+        Window.size = (400, 400)
+        Window.left = 100
+        Window.top = 100
+
     QuizApp().run()
