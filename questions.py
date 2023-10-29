@@ -17,16 +17,12 @@ class MainScreen(BoxLayout):
         self.add_widget(Label(text='Welcome to the Quiz App', 
                               size_hint=(1, 0.4), 
                               font_size='24sp'))
-        self.add_widget(Button(text='Login with Google', 
-                               size_hint=(1, 0.2),
-                               background_color=(0.2, 0.7, 0.3, 1),
-                               font_size='18sp',
-                               on_release=self.login_with_google))
-        self.add_widget(Button(text='Login with macOS Account', 
-                               size_hint=(1, 0.2),
-                               background_color=(0.2, 0.6, 0.9, 1),
-                               font_size='18sp',
-                               on_release=self.login_with_macos))
+        self.add_widget(CustomButton(text='Login with Google', 
+                                     background_color=(0.2, 0.7, 0.3, 1),
+                                     on_release=self.login_with_google))
+        self.add_widget(CustomButton(text='Login with macOS Account', 
+                                     background_color=(0.2, 0.6, 0.9, 1),
+                                     on_release=self.login_with_macos))
 
     def login_with_google(self, instance):
         print("Login with Google")
@@ -34,13 +30,14 @@ class MainScreen(BoxLayout):
     def login_with_macos(self, instance):
         print("Login with macOS Account")
 
-    def on_size(self, *args):
-        self.canvas.before.clear()
-        with self.canvas.before:
-            Color(0.2, 0.7, 0.3, 1)
-            RoundedRectangle(pos=self.pos, size=self.size, radius=[20,])
-            Color(0.2, 0.6, 0.9, 1)
-            RoundedRectangle(pos=self.pos, size=self.size, radius=[20,])
+class CustomButton(Button):
+    def __init__(self, **kwargs):
+        super(CustomButton, self).__init__(**kwargs)
+        self.background_normal = ''
+        self.background_color = kwargs.get('background_color')
+        self.size_hint = (1, 0.2)
+        self.border = (10, 10, 10, 10)
+        self.border_radius = 20
 
 if __name__ == '__main__':
     QuizApp().run()
