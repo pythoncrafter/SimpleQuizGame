@@ -23,5 +23,31 @@
         "question": "Which team has won the most NBA championships as of 2022?",
         "options": ["Los Angeles Lakers", "Boston Celtics", "Chicago Bulls"],
         "correct_option": 2
+    },
+
+    {
+        "question": "Who is known as 'The Black Mamba' in the history of basketball?",
+        "options": ["Kobe Bryant", "Shaquille O'Neal", "Magic Johnson"],
+        "correct_option": 1
+    },
+    {
+        "question": "In basketball, what does 'NBA' stand for?",
+        "options": ["National Basketball Association", "National Ball Association", "National Basketball Alliance"],
+        "correct_option": 1
+    },
+    {
+        "question": "Which basketball player has scored the most points in a single NBA game?",
+        "options": ["Michael Jordan", "Kobe Bryant", "Wilt Chamberlain"],
+        "correct_option": 3
+    },
+    {
+        "question": "What is the regulation height of an official NBA basketball hoop in feet?",
+        "options": ["9", "10", "11"],
+        "correct_option": 2
+    },
+    {
+        "question": "Which team won the first-ever NBA Championship?",
+        "options": ["Chicago Stags", "Philadelphia Warriors", "New York Knicks"],
+        "correct_option": 2
     }
 ]
