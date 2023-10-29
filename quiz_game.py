@@ -28,7 +28,7 @@ class QuizApp(App):
     def __init__(self, **kwargs):
         super(QuizApp, self).__init__(**kwargs)
         self.questions = []  # Initialize the questions attribute
-        
+
     def build(self):
         self.load_questions()
         self.score = 0
@@ -50,21 +50,20 @@ class QuizApp(App):
         self.show_question()
         return layout
 
-def load_questions(self):
-    file_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'questions.db')
-    conn = None
-    try:
-        conn = sqlite3.connect(file_path)
-        cursor = conn.cursor()
-        cursor.execute("SELECT * FROM questions")
-        rows = cursor.fetchall()
-        self.questions = [Question(row[1], row[2], row[3], row[4]) for row in rows]
-    except Error as e:
-        print(f"Error while loading questions: {e}")
-    finally:
-        if conn:
-            conn.close()
-
+    def load_questions(self):
+        file_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'questions.db')
+        conn = None
+        try:
+            conn = sqlite3.connect(file_path)
+            cursor = conn.cursor()
+            cursor.execute("SELECT * FROM questions")
+            rows = cursor.fetchall()
+            self.questions = [Question(row[1], row[2], row[3], row[4]) for row in rows]
+        except Error as e:
+            print(f"Error while loading questions: {e}")
+        finally:
+            if conn:
+                conn.close()
 
     def add_question(self, question, options, correct_option, category):
         file_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'questions.db')
