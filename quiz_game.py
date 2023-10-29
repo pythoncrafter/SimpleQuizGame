@@ -111,10 +111,11 @@ class QuizApp(App):
             json.dump(results, file)
 
 if __name__ == '__main__':
-    # Set the window size and position for macOS
-    if os.name == 'posix':
-        Window.size = (400, 400)
-        Window.left = 100
-        Window.top = 100
+    if platform == 'macosx':
+        # Set the window size for macOS
+        Window.size = (800, 600)
+    elif platform == 'ios' or platform == 'android':
+        # Set the window size for mobile platforms
+        Window.fullscreen = 'auto'
 
     QuizApp().run()
