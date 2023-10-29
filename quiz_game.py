@@ -4,6 +4,35 @@ from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.uix.popup import Popup
 import json
+import os
+
+DEFAULT_QUESTIONS = [
+    {
+        "question": "What is the diameter of a basketball hoop in inches?",
+        "options": ["15", "16", "18"],
+        "correct_option": 3
+    },
+    {
+        "question": "How many players are allowed on the court from each team in a basketball game?",
+        "options": ["4", "5", "6"],
+        "correct_option": 2
+    },
+    {
+        "question": "Which player has won the most NBA championships in history?",
+        "options": ["Michael Jordan", "LeBron James", "Bill Russell"],
+        "correct_option": 3
+    },
+    {
+        "question": "How many quarters are there in a standard basketball game?",
+        "options": ["2", "3", "4"],
+        "correct_option": 3
+    },
+    {
+        "question": "Which team has won the most NBA championships as of 2022?",
+        "options": ["Los Angeles Lakers", "Boston Celtics", "Chicago Bulls"],
+        "correct_option": 2
+    }
+]
 
 class Question:
     def __init__(self, question, options, correct_option):
@@ -33,9 +62,15 @@ class QuizApp(App):
         return layout
 
     def load_questions(self):
-        with open('questions.json', 'r') as file:
+        file_path = 'questions.json'
+        if not os.path.exists(file_path):
+            with open(file_path, 'w') as file:
+                json.dump(DEFAULT_QUESTIONS, file)
+
+        with open(file_path, 'r') as file:
             data = json.load(file)
             self.questions = [Question(item['question'], item['options'], item['correct_option']) for item in data]
+
 
     def show_question(self):
         self.options_layout.clear_widgets()
