@@ -6,9 +6,11 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.uix.popup import Popup
+from kivy.uix.textinput import TextInput
 from kivy.core.window import Window
 import sqlite3
 from sqlite3 import Error
+import json
 import os
 
 class Question:
@@ -35,6 +37,10 @@ class QuizApp(App):
         self.options_layout = GridLayout(cols=1)
 
         layout.add_widget(self.options_layout)
+
+        self.add_question_button = Button(text='Add Question', size_hint=(1, 0.1))
+        self.add_question_button.bind(on_press=self.show_add_question_popup)
+        layout.add_widget(self.add_question_button)
 
         self.show_question()
         return layout
@@ -102,6 +108,26 @@ class QuizApp(App):
         results = {'score': self.score, 'total_questions': len(self.questions)}
         with open('results.json', 'w') as file:
             json.dump(results, file)
+
+    def show_add_question_popup(self, instance):
+        content = GridLayout(cols=2, padding=10)
+        content.add_widget(Label(text='Question:'))
+        self.question_input = TextInput(multiline=False)
+        content.add_widget(self.question_input)
+        content.add_widget(Label(text='Options (comma-separated):'))
+        self.options_input = TextInput(multiline=False)
+        content.add_widget(self.options_input)
+        content.add_widget(Label(text='Correct Option:'))
+        self.correct_option_input = TextInput(multiline=False)
+        content.add_widget(self.correct_option_input)
+        content.add_widget(Label(text='Category:'))
+        self.category_input = TextInput(multiline=False)
+        content.add_widget(self.category_input)
+        button = Button(text='Add', size_hint_y=None, height=40)
+        button.bind(on_press=self.add_question_from_popup)
+        content.add_widget(button)
+        popup = Popup(title='Add Question', content=content, size_hint=(None, None), size
+
 
 if __name__ == '__main__':
     if platform == 'macosx':
