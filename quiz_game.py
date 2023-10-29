@@ -7,6 +7,7 @@ from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.uix.popup import Popup
 from kivy.core.window import Window
+from kivy.utils import platform
 import json
 import os
 
